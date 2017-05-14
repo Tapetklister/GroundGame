@@ -18,7 +18,7 @@ public class Player extends GameObject {
 	
 	public Player(float x, float y, Handler handler, ObjectId id) {
 		super(x, y, id);
-		setGravity(0.8f);
+		setGravity(1f);
 		this.handler = handler;
 	}
 

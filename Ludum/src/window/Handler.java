@@ -1,13 +1,15 @@
 package window;
 
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import model.Enemy;
 import model.EnemySpawner;
 import model.GameObject;
 import model.ObjectId;
-import model.Projectile;
 import objects.Block;
 
 public class Handler {
@@ -16,7 +18,14 @@ public class Handler {
 	
 	private GameObject tempObject;
 	
+	private BufferedImage image;
+	private Graphics2D g2d;
+	
+	public boolean gameOver = false;
+	
 	private int numberOfRows = 4;
+	
+	private Font font;
 	
 	public float enemySpawnInterval = 3.0f;
 	

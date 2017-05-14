@@ -26,8 +26,8 @@ public class Enemy extends GameObject {
 		x += velX;
 		y += velY;
 		
-		if (x > Game.WIDTH) x = 0;
-		if (x < 0) x = Game.WIDTH;
+		if (x > Game.WIDTH - 80) velX = -3;
+		if (x < 40) velX = 3;
 		
 		velY += gravity;
 		
@@ -52,6 +52,13 @@ public class Enemy extends GameObject {
 					handler.addObject(newKidOnTheBlock);
 					handler.removeObject(object);
 					velY = -15;
+				}
+			}
+			
+			if (object.getId() == ObjectId.Player) {
+				
+				if (getBounds().intersects(object.getBounds())) {
+					handler.gameOver = true;
 				}
 			}
 		}
