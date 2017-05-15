@@ -16,6 +16,9 @@ public class Block extends GameObject {
 	private Graphics graphics;
 	private Handler handler;
 	
+	private int height = 32;
+	private int width = 64;
+	
 	public Block(float x, float y, ObjectId id, Handler handler, int type) {
 		super(x, y, id);
 		this.type = type;
@@ -71,9 +74,9 @@ public class Block extends GameObject {
 				graphics.setColor(Color.WHITE);
 				break;
 			}
-			graphics.fillRect((int)x, (int)y, 64, 32);
+			graphics.fillRect((int)x, (int)y, width, height);
 			graphics.setColor(Color.BLACK);
-			graphics.drawRect((int)x, (int)y, 64, 32);
+			graphics.drawRect((int)x, (int)y, width, height);
 		}
 	}
 

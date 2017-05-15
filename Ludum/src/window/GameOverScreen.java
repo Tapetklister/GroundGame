@@ -26,5 +26,9 @@ public class GameOverScreen {
 		graphics.drawString("Quit", quitB.x + 110, quitB.y + 35);
 		g2d.draw(playB);
 		g2d.draw(quitB);
+		
+		Font font3 = new Font("arial", Font.ROMAN_BASELINE, 30);
+		graphics.setFont(font3);
+		graphics.drawString("Score: " + Game.score, Game.WIDTH / 2 - 100, 150);
 	}
 }

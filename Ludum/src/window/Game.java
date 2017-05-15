@@ -16,16 +16,16 @@ public class Game extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = -5582403193394555353L;
 	public static int WIDTH, HEIGHT;
-	private boolean isRunning = false;
+	public static boolean willRestart = false;
+	public static int score;
 	public Handler handler;
 	public Thread thread;
 	
-	public static boolean willRestart = false;
+	private boolean isRunning = false;
+	private long enemyTimer = System.currentTimeMillis();
 	
 	private Menu menu;
 	private GameOverScreen gameOverScreen;
-	
-	long enemyTimer = System.currentTimeMillis();
 	
 	public static enum STATE {
 		MENU,
@@ -110,7 +110,7 @@ public class Game extends Canvas implements Runnable {
 			for (int i = handler.objectList.size(); i > 0; i--) {
 				handler.objectList.removeFirst();
 			}
-			handler.points = 0;
+			score = 0;
 			State = STATE.GAME;
 			
 			init();

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 
+import window.Game;
 import window.Handler;
 
 public class Projectile extends GameObject {
@@ -35,9 +36,9 @@ public class Projectile extends GameObject {
 				
 				if (getBounds().intersects(enemy.getBounds())) {
 					
-					if (enemy.type == 0) {
-						Enemy enemy1 = new Enemy(object.getX(), object.getY(), handler, ObjectId.Enemy, 2);
-						Enemy enemy2 = new Enemy(object.getX(), object.getY(), handler, ObjectId.Enemy, 2);
+					if (enemy.Type == Enemy.TYPE.GREEN) {
+						Enemy enemy1 = new Enemy(object.getX(), object.getY(), handler, ObjectId.Enemy, Enemy.TYPE.CLUSTER);
+						Enemy enemy2 = new Enemy(object.getX(), object.getY(), handler, ObjectId.Enemy, Enemy.TYPE.CLUSTER);
 						enemy1.setVelX(3);
 						enemy1.setVelY(-10);
 						enemy2.setVelX(-3);
@@ -47,7 +48,7 @@ public class Projectile extends GameObject {
 					}
 					object.destroy();
 					destroy();
-					handler.points += 1;
+					Game.score += 1;
 				}
 			}
 		}

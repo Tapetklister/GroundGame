@@ -34,6 +34,10 @@ public class Player extends GameObject {
 		}
 		
 		Collision(objectList);
+		
+		if (y > Game.HEIGHT) {
+			Game.State = Game.STATE.GAMEOVER;
+		}
 	}
 	
 	private void Collision(LinkedList<GameObject> objectList) {

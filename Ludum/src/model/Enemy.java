@@ -13,18 +13,24 @@ public class Enemy extends GameObject {
 
 	private float MAX_SPEED = 7.0f;
 	private Handler handler;
-	public int type;
+	public TYPE Type;
 	
 	private int width;
 	private int height;
 	
-	public Enemy(float x, float y, Handler handler, ObjectId id, int type) {
+	public static enum TYPE {
+		NORMAL,
+		GREEN,
+		CLUSTER
+	}
+	
+	public Enemy(float x, float y, Handler handler, ObjectId id, TYPE Type) {
 		super(x, y, id);
 		setGravity(0.3f);
 		this.handler = handler;
-		this.type = type;
+		this.Type = Type;
 		
-		if (type != 2) {
+		if (this.Type != TYPE.CLUSTER) {
 			width = 32;
 			height = 32;
 		} else {
@@ -77,14 +83,14 @@ public class Enemy extends GameObject {
 	@Override
 	public void render(Graphics graphics) {
 		
-		switch(type) {
-		case 0:
+		switch(Type) {
+		case GREEN:
 			graphics.setColor(Color.GREEN);
 			break;
-		case 1:
+		case NORMAL:
 			graphics.setColor(Color.WHITE);
 			break;
-		case 2:
+		case CLUSTER:
 			graphics.setColor(Color.CYAN);
 			break;
 		default:

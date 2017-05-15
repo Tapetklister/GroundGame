@@ -17,7 +17,6 @@ public class Handler {
 	public LinkedList<GameObject> objectList = new LinkedList<GameObject>();
 	public EnemySpawner enemySpawner = new EnemySpawner(this);
 	public boolean gameOver = false;
-	public int points = 0;
 	
 	private GameObject tempObject;
 	
@@ -26,6 +25,13 @@ public class Handler {
 			for (int i = 0; i < objectList.size(); i++) {
 				tempObject = objectList.get(i);
 				tempObject.tick(objectList);
+				
+				if (tempObject.getX() > Game.WIDTH + 100 ||
+						tempObject.getX() < -100 ||
+						tempObject.getY() > Game.HEIGHT + 100 ||
+						tempObject.getY() < -100) {
+					removeObject(tempObject);
+				}
 			}
 		}
 	}
@@ -41,7 +47,7 @@ public class Handler {
 			Font pointsFont = new Font("arial", Font.ROMAN_BASELINE, 30);
 			graphics.setFont(pointsFont);
 			graphics.setColor(Color.CYAN);
-			graphics.drawString("" + points, 50, 50);
+			graphics.drawString("" + Game.score, 50, 50);
 		}
 	}
 	
