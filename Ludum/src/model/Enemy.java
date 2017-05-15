@@ -13,11 +13,25 @@ public class Enemy extends GameObject {
 
 	private float MAX_SPEED = 7.0f;
 	private Handler handler;
+	public int type;
 	
-	public Enemy(float x, float y, Handler handler, ObjectId id) {
+	private int width;
+	private int height;
+	
+	public Enemy(float x, float y, Handler handler, ObjectId id, int type) {
 		super(x, y, id);
 		setGravity(0.3f);
 		this.handler = handler;
+		this.type = type;
+		
+		if (type != 2) {
+			width = 32;
+			height = 32;
+		} else {
+			width = 24;
+			height = 24;
+		}
+		
 	}
 
 	@Override
@@ -63,14 +77,27 @@ public class Enemy extends GameObject {
 	@Override
 	public void render(Graphics graphics) {
 		
-		graphics.setColor(Color.WHITE);
-		graphics.fillRect((int)x, (int)y, 32, 32);
+		switch(type) {
+		case 0:
+			graphics.setColor(Color.GREEN);
+			break;
+		case 1:
+			graphics.setColor(Color.WHITE);
+			break;
+		case 2:
+			graphics.setColor(Color.CYAN);
+			break;
+		default:
+			graphics.setColor(Color.WHITE);
+		}
+		
+		graphics.fillRect((int)x, (int)y, width, height);
 		
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle((int) x, (int) y, 32, 32);
+		return new Rectangle((int) x, (int) y, width, width);
 	}
 
 	@Override

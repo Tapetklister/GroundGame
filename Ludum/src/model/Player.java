@@ -57,7 +57,7 @@ public class Player extends GameObject {
 				if (getBoundsLeft().intersects(object.getBounds())) x = 36;
 			}
 			if (object.getId() == ObjectId.Enemy) {
-				if (getBounds().intersects(object.getBounds())) {
+				if (getBoundsTop().intersects(object.getBounds())) {
 					Game.State = Game.STATE.GAMEOVER;
 				}
 			}
@@ -94,7 +94,7 @@ public class Player extends GameObject {
 	}
 	
 	public void shoot() {
-		Projectile proj = new Projectile(x, y, handler, ObjectId.Projectile);
+		Projectile proj = new Projectile(x + width / 2, y, handler, ObjectId.Projectile);
 		handler.addObject(proj);
 	}
 
