@@ -33,7 +33,6 @@ public class Block extends GameObject {
 
 	@Override
 	public void tick(LinkedList<GameObject> objectList) {
-			
 	}
 
 	@Override

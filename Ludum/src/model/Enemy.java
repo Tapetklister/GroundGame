@@ -54,7 +54,6 @@ public class Enemy extends GameObject {
 		if (velY > MAX_SPEED) {
 			velY = MAX_SPEED;
 		}
-		
 		Collision(objectList);
 	}
 	

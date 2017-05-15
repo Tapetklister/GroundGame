@@ -3,7 +3,6 @@ package window;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 import model.Enemy;
@@ -43,7 +42,6 @@ public class Handler {
 				tempObject.render(graphics);
 			}
 		
-			Graphics2D g2d = (Graphics2D) graphics;
 			Font pointsFont = new Font("arial", Font.ROMAN_BASELINE, 30);
 			graphics.setFont(pointsFont);
 			graphics.setColor(Color.CYAN);

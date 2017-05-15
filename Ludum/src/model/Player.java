@@ -10,10 +10,13 @@ import window.Handler;
 
 public class Player extends GameObject {
 
-	private final float MAX_SPEED = 10;
+	public final float MAX_SPEED = 10;
 	private float width = 32;
 	private float height = 64;
 	private Handler handler;
+	
+	private boolean moveRight;
+	private boolean moveLeft;
 	
 	public Player(float x, float y, Handler handler, ObjectId id) {
 		super(x, y, id);
@@ -23,8 +26,21 @@ public class Player extends GameObject {
 
 	@Override
 	public void tick(LinkedList<GameObject> objectList) {
-		x += velX;
+		
+		if (moveRight) {
+			setVelX(5);
+		}
+		
+		if (moveLeft) {
+			setVelX(-5);
+		}
+		
+		if (!moveRight && !moveLeft) {
+			setVelX(0);
+		}
+		
 		y += velY;
+		x += velX;
 		
 		if (isFalling || isJumping) {
 			velY += gravity;
@@ -101,5 +117,22 @@ public class Player extends GameObject {
 		Projectile proj = new Projectile(x + width / 2, y, handler, ObjectId.Projectile);
 		handler.addObject(proj);
 	}
-
+	
+	public void moveRight() {
+		moveRight = true;
+		moveLeft = false;
+	}
+	
+	public void moveLeft() {
+		moveRight = false;
+		moveLeft = true;
+	}
+	
+	public void setMoveRight(boolean moveRight) {
+		this.moveRight = moveRight;
+	}
+	
+	public void setMoveLeft(boolean moveLeft) {
+		this.moveLeft = moveLeft;
+	}
 }

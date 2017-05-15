@@ -53,24 +53,18 @@ public class Game extends Canvas implements Runnable {
 		double ns = 1000000000/ amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
-		int updates = 0;
-		int frames = 0;
 		while (isRunning) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			while (delta >= 1) {
 				tick();
-				updates += 1;
 				delta -= 1;
 			}
 			render();
-			frames += 1;
 			
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				frames = 0;
-				updates = 0;
 			}
 			if (System.currentTimeMillis() - enemyTimer > 3000) {
 				handler.spawnEnemy();
@@ -104,15 +98,12 @@ public class Game extends Canvas implements Runnable {
 	public void render() {
 		
 		if (willRestart) {
-			
 			willRestart = false;
-			
 			for (int i = handler.objectList.size(); i > 0; i--) {
 				handler.objectList.removeFirst();
 			}
 			score = 0;
 			State = STATE.GAME;
-			
 			init();
 		}
 		
@@ -123,7 +114,6 @@ public class Game extends Canvas implements Runnable {
 		}
 		
 		Graphics graphics = strategy.getDrawGraphics();
-		
 		graphics.setColor(Color.BLACK);
 		graphics.fillRect(0, 0, getWidth(), getHeight());
 		
@@ -140,7 +130,7 @@ public class Game extends Canvas implements Runnable {
 	
 	public static void main(String[] args) {
 		
-		new Window(580, 896, "Ludum", new Game());
+		new Window(580, 896, "Square Blast", new Game());
 	}
 
 }
