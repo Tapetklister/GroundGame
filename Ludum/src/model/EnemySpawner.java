@@ -18,9 +18,6 @@ public class EnemySpawner {
 	}
 	
 	public Enemy spawn() {
-		
-		System.out.println("Spawned enemy");
-		
 		float enemyVelX = rand.nextFloat() * 3;
 		
 		Enemy enemy = new Enemy(Game.WIDTH / 2, 0, handler, ObjectId.Enemy);

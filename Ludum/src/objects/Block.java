@@ -7,17 +7,20 @@ import java.util.LinkedList;
 
 import model.GameObject;
 import model.ObjectId;
+import window.Handler;
 
 public class Block extends GameObject {
 
 	public int type; 
 	public Rectangle bounds;
 	private Graphics graphics;
+	private Handler handler;
 	
-	public Block(float x, float y, ObjectId id, int type) {
+	public Block(float x, float y, ObjectId id, Handler handler, int type) {
 		super(x, y, id);
 		this.type = type;
 		setGravity(0.0f);
+		this.handler = handler;
 		
 		if (type != 20)
 			bounds = new Rectangle((int) x, (int) y, 64, 32); else {
@@ -80,6 +83,7 @@ public class Block extends GameObject {
 	}
 	
 	public void destroy() {
+		handler.removeObject(this);
 	}
 
 }

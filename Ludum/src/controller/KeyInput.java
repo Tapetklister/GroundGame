@@ -7,6 +7,7 @@ import model.GameObject;
 import model.ObjectId;
 import model.Player;
 import model.Projectile;
+import window.Game;
 import window.Handler;
 
 public class KeyInput extends KeyAdapter {
@@ -50,8 +51,7 @@ public class KeyInput extends KeyAdapter {
 		
 		switch (keyCode) {
 		case KeyEvent.VK_ESCAPE:
-			System.exit(1);
-		
+			Game.State = Game.STATE.MENU;
 		}
 	}
 	

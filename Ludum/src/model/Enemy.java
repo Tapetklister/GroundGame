@@ -43,12 +43,9 @@ public class Enemy extends GameObject {
 		for (int i = 0; i < handler.objectList.size(); i++) {
 			GameObject object = handler.objectList.get(i);
 			if (object.getId() == ObjectId.Block) {
-				
-				Block block = (Block) object;
-				
 				if (getBounds().intersects(object.getBounds())) {
 					object.destroy();
-					Block newKidOnTheBlock = new Block(object.getX(), object.getY(), ObjectId.Block, 20);
+					Block newKidOnTheBlock = new Block(object.getX(), object.getY(), ObjectId.Block, handler, 20);
 					handler.addObject(newKidOnTheBlock);
 					handler.removeObject(object);
 					velY = -15;
@@ -56,7 +53,6 @@ public class Enemy extends GameObject {
 			}
 			
 			if (object.getId() == ObjectId.Player) {
-				
 				if (getBounds().intersects(object.getBounds())) {
 					handler.gameOver = true;
 				}
@@ -66,7 +62,6 @@ public class Enemy extends GameObject {
 
 	@Override
 	public void render(Graphics graphics) {
-		// TODO Auto-generated method stub
 		
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect((int)x, (int)y, 32, 32);
@@ -75,14 +70,12 @@ public class Enemy extends GameObject {
 
 	@Override
 	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
 		return new Rectangle((int) x, (int) y, 32, 32);
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		handler.removeObject(this);
 	}
 
 }

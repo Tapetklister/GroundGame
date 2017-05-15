@@ -32,8 +32,9 @@ public class Projectile extends GameObject {
 			GameObject object = handler.objectList.get(i);
 			if (object.getId() == ObjectId.Enemy) {
 				if (getBounds().intersects(object.getBounds())) {
-					handler.removeObject(object);
-					handler.removeObject(this);
+					object.destroy();
+					destroy();
+					handler.points += 1;
 				}
 			}
 		}
@@ -55,7 +56,7 @@ public class Projectile extends GameObject {
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
+		handler.removeObject(this);
 	}
 
 }

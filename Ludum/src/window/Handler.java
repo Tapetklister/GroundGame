@@ -1,9 +1,9 @@
 package window;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import model.Enemy;
@@ -15,33 +15,33 @@ import objects.Block;
 public class Handler {
 	
 	public LinkedList<GameObject> objectList = new LinkedList<GameObject>();
+	public EnemySpawner enemySpawner = new EnemySpawner(this);
+	public boolean gameOver = false;
+	public int points = 0;
 	
 	private GameObject tempObject;
 	
-	private BufferedImage image;
-	private Graphics2D g2d;
-	
-	public boolean gameOver = false;
-	
-	private int numberOfRows = 4;
-	
-	private Font font;
-	
-	public float enemySpawnInterval = 3.0f;
-	
-	public EnemySpawner enemySpawner = new EnemySpawner(this);
-	
 	public void tick() {
-		for (int i = 0; i < objectList.size(); i++) {
-			tempObject = objectList.get(i);
-			tempObject.tick(objectList);
+		if (Game.State == Game.STATE.GAME) {
+			for (int i = 0; i < objectList.size(); i++) {
+				tempObject = objectList.get(i);
+				tempObject.tick(objectList);
+			}
 		}
 	}
 	
 	public void render(Graphics graphics) {
-		for (int i = 0; i < objectList.size(); i++) {
-			tempObject = objectList.get(i);
-			tempObject.render(graphics);
+		if (Game.State == Game.STATE.GAME) {
+			for (int i = 0; i < objectList.size(); i++) {
+				tempObject = objectList.get(i);
+				tempObject.render(graphics);
+			}
+		
+			Graphics2D g2d = (Graphics2D) graphics;
+			Font pointsFont = new Font("arial", Font.ROMAN_BASELINE, 30);
+			graphics.setFont(pointsFont);
+			graphics.setColor(Color.CYAN);
+			graphics.drawString("" + points, 50, 50);
 		}
 	}
 	
@@ -56,30 +56,27 @@ public class Handler {
 	public void createGround() {
 		
 		int rowIndex = 0;
-		
 		for (int yy = 640; yy < Game.HEIGHT - 32; yy += 32) {
-			
-			System.out.println(rowIndex);
-			
 			for (int xx = 32; xx < Game.WIDTH-64; xx += 64) {
-				addObject(new Block(xx, yy, ObjectId.Block, rowIndex));
+				addObject(new Block(xx, yy, ObjectId.Block, this, rowIndex));
 			}
 			rowIndex++;
 		}
 	}
 	
 	public void createWalls() {
-		
 		for (int yy = 0; yy < Game.HEIGHT - 32; yy += 32) {
-			GameObject leftBlock = new Block(-32, yy, ObjectId.Wall, 10);
-			GameObject rightBlock = new Block(Game.WIDTH-46, yy, ObjectId.Wall, 10);
+			GameObject leftBlock = new Block(-32, yy, ObjectId.Wall, this, 10);
+			GameObject rightBlock = new Block(Game.WIDTH-46, yy, ObjectId.Wall, this, 10);
 			addObject(leftBlock);
 			addObject(rightBlock);
 		}
 	}
 	
 	public void spawnEnemy() {
-		Enemy enemy = enemySpawner.spawn();
-		addObject(enemy);
+		if (Game.State == Game.STATE.GAME) {
+			Enemy enemy = enemySpawner.spawn();
+			addObject(enemy);
+		}
 	}
 }

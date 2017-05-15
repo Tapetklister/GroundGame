@@ -5,15 +5,14 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 
+import window.Game;
 import window.Handler;
 
 public class Player extends GameObject {
 
 	private final float MAX_SPEED = 10;
-	
 	private float width = 32;
 	private float height = 64;
-	
 	private Handler handler;
 	
 	public Player(float x, float y, Handler handler, ObjectId id) {
@@ -30,7 +29,6 @@ public class Player extends GameObject {
 		if (isFalling || isJumping) {
 			velY += gravity;
 		}
-		
 		if (velY > MAX_SPEED) {
 			velY = MAX_SPEED;
 		}
@@ -57,6 +55,11 @@ public class Player extends GameObject {
 			if (object.getId() == ObjectId.Wall) {
 				if (getBoundsRight().intersects(object.getBounds())) x = object.getX() - width;
 				if (getBoundsLeft().intersects(object.getBounds())) x = 36;
+			}
+			if (object.getId() == ObjectId.Enemy) {
+				if (getBounds().intersects(object.getBounds())) {
+					Game.State = Game.STATE.GAMEOVER;
+				}
 			}
 		}
 	}
@@ -87,7 +90,7 @@ public class Player extends GameObject {
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+		handler.removeObject(this);
 	}
 	
 	public void shoot() {

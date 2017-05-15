@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Label;
 import java.awt.image.BufferStrategy;
+import java.util.LinkedList;
 
 import controller.KeyInput;
 import controller.MouseInput;
@@ -16,10 +17,15 @@ public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = -5582403193394555353L;
 	public static int WIDTH, HEIGHT;
 	private boolean isRunning = false;
-	private Handler handler;
+	public Handler handler;
 	public Thread thread;
 	
+	public static boolean willRestart = false;
+	
 	private Menu menu;
+	private GameOverScreen gameOverScreen;
+	
+	long enemyTimer = System.currentTimeMillis();
 	
 	public static enum STATE {
 		MENU,
@@ -41,40 +47,37 @@ public class Game extends Canvas implements Runnable {
 	public void run() {
 		
 		init();
-		while (handler.gameOver == false) {
+		this.requestFocus();
+		long lastTime = System.nanoTime();
+		double amountOfTicks = 60.0;
+		double ns = 1000000000/ amountOfTicks;
+		double delta = 0;
+		long timer = System.currentTimeMillis();
+		int updates = 0;
+		int frames = 0;
+		while (isRunning) {
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime = now;
+			while (delta >= 1) {
+				tick();
+				updates += 1;
+				delta -= 1;
+			}
+			render();
+			frames += 1;
 			
-			this.requestFocus();
-			long lastTime = System.nanoTime();
-			double amountOfTicks = 60.0;
-			double ns = 1000000000/ amountOfTicks;
-			double delta = 0;
-			long timer = System.currentTimeMillis();
-			int updates = 0;
-			int frames = 0;
-			long enemyTimer = System.currentTimeMillis();
-			while (isRunning) {
-				long now = System.nanoTime();
-				delta += (now - lastTime) / ns;
-				lastTime = now;
-				while (delta >= 1) {
-					tick();
-					updates += 1;
-					delta -= 1;
-				}
-				render();
-				frames += 1;
-				
-				if (System.currentTimeMillis() - timer > 1000) {
-					timer += 1000;
-					frames = 0;
-					updates = 0;
-				}
-				if (System.currentTimeMillis() - enemyTimer > 3000) {
-					handler.spawnEnemy();
-					enemyTimer += 3000;
-				}
+			if (System.currentTimeMillis() - timer > 1000) {
+				timer += 1000;
+				frames = 0;
+				updates = 0;
+			}
+			if (System.currentTimeMillis() - enemyTimer > 3000) {
+				handler.spawnEnemy();
+				enemyTimer += 3000;
 			}
 		}
+		
 	}
 	
 	public void init() {
@@ -88,6 +91,7 @@ public class Game extends Canvas implements Runnable {
 		handler.createWalls();
 		
 		menu = new Menu();
+		gameOverScreen = new GameOverScreen();
 		
 		this.addMouseListener(new MouseInput());
 		this.addKeyListener(new KeyInput(handler));
@@ -98,6 +102,19 @@ public class Game extends Canvas implements Runnable {
 	}
 	
 	public void render() {
+		
+		if (willRestart) {
+			
+			willRestart = false;
+			
+			for (int i = handler.objectList.size(); i > 0; i--) {
+				handler.objectList.removeFirst();
+			}
+			handler.points = 0;
+			State = STATE.GAME;
+			
+			init();
+		}
 		
 		BufferStrategy strategy = this.getBufferStrategy();
 		if (strategy == null) {
@@ -114,7 +131,9 @@ public class Game extends Canvas implements Runnable {
 			handler.render(graphics);
 		else if (State == STATE.MENU)
 			menu.render(graphics);
-		
+		else if (State == STATE.GAMEOVER)
+			gameOverScreen.render(graphics);
+			
 		graphics.dispose();
 		strategy.show();
 	}
